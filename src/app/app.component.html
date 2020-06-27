@@ -1,0 +1,4 @@
+<div class="">
+  <app-reception *ngIf="!currentName || !currentPlaylist"></app-reception>
+  <app-player *ngIf="currentName && currentPlaylist"></app-player>
+</div>

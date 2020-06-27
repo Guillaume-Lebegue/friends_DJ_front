@@ -1,0 +1,19 @@
+<div class="">
+    <form [formGroup]="signForm">
+        <div class="">
+            <label for="name">Pseudo</label>
+            <input type="text" name="name" id="name"
+                placeholder="pseudo" formControlName="name">
+            <p *ngIf="missingName">Faut renseigner</p>
+        </div>
+        <div class="">
+            <label for="playlistId">Playlist</label>
+            <input type="text" name="playlistId" id="playlistId"
+                placeholder="Identifiant" formControlName="playlistId">
+            <p *ngIf="missingShortId">Faut renseigner</p>
+            <p *ngIf="notFound">Playlist introuvable</p>
+        </div>
+        <button (click)="onJoin()">Se connecter</button>
+        <button (click)="onCreate()">Creer salle</button>
+    </form>
+</div>
