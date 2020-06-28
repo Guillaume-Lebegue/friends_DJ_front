@@ -9,6 +9,8 @@ import { Video } from 'src/app/models/video.model';
 export class VideoComponent implements OnInit {
 
   @Input() video: Video;
+  @Input() passed: Boolean;
+  @Input() ongoing: Boolean;
 
   constructor() { }
 

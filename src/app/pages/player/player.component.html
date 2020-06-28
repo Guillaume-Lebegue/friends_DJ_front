@@ -4,7 +4,21 @@
     <button (click)="onSendVideo()">Envoyer</button>
     <p *ngIf="missingVideoInput">Faut renseigner</p>
     <p *ngIf="videoNotFound">Video non trouvé</p>
-    <div class="border" *ngFor="let video of currentPlaylist.videos">
-        <app-video [video]="video"></app-video>
+    <div class="border" *ngFor="let video of currentPlaylist.videos; let index = index">
+        <app-video [video]="video"
+            [passed]="currentPlaylist.actualVideo > index"
+            [ongoing]="currentPlaylist.actualVideo == index">
+        </app-video>
     </div>
+    <div class="borser">
+        <div class="border" *ngFor="let message of messages">
+            <div class="border">
+                <p>{{ message.message }}</p>
+                <p *ngIf="message.name">{{ message.name }}</p>
+            </div>
+        </div>
+        <input type="text" name="chatroom" id="chatroom" class="form-control" [(ngModel)]="chatroomInput">
+        <button (click)="onSendMessage()">Send</button>
+    </div>
+    <p>Code: {{ this.currentPlaylist.shortId }}</p>
 </div>

@@ -16,6 +16,8 @@ export class PlayerComponent implements OnInit, OnDestroy {
   missingVideoInput: Boolean = false;
   videoNotFound: Boolean = false;
 
+  chatroomInput: String = '';
+
   currentName: String;
   currentPlaylist: Playlist;
 
@@ -29,12 +31,13 @@ export class PlayerComponent implements OnInit, OnDestroy {
     name: string,
     own: Boolean,
     info: boolean
-  }> = new Array();
+  }>;
 
   constructor(
     private playlistService: PlaylistService,
     private websocketService: WebsocketService
   ) {
+    this.messages = new Array();
     this.playlistService.currentName.subscribe(name => {
       this.currentName = name;
     })
@@ -79,13 +82,23 @@ export class PlayerComponent implements OnInit, OnDestroy {
     }
   }
 
+  async onSendMessage() {
+    if (this.chatroomInput.length <= 0)
+      return;
+    
+    this.websocketService.doSendMessage(this.chatroomInput);
+  }
+
   setupObservable() {
     if (!this.newMessageSubscription)
       this.newMessageSubscription = this.websocketService.subscribeToNewMessage().subscribe(data => {
         if (!this.currentPlaylist)
           return;
-        const senderName = this.playlistService.getNameFromSocket(this.currentPlaylist, data.socketId);
-        this.messages.push({message: data.message, name: senderName, own: false, info: false});
+        console.log('playlist: ', this.currentPlaylist, ' senderId: ', data.senderId);
+        const senderName = this.playlistService.getNameFromSocket(this.currentPlaylist, data.senderId);
+        const own = data.senderId == this.websocketService.socket.id;
+        console.log('message: ', data.message, 'sender: ', senderName, ' own: ', own);
+        this.messages.push({message: data.message, name: senderName, own, info: false});
       });
     if (!this.newVideoSubscription)
       this.newVideoSubscription = this.websocketService.subscribeToNewVideo().subscribe(data => {

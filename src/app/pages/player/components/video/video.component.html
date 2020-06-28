@@ -1,4 +1,5 @@
-<div class="border" *ngIf="video">
+<div class="border" *ngIf="video"
+    [ngClass]="{'bg-info': ongoing, 'bg-secondary': passed}">
     <img [src]="video.thumbnails" alt="Video thumbnails">
     <p>{{ video.title }}</p>
     <p>{{ video.channel }}</p>

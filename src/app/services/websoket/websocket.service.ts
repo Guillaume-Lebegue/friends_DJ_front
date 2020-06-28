@@ -43,7 +43,7 @@ export class WebsocketService {
 
   doSendVideo(url) {
     return new Promise((resolve, reject) => {
-      this.socket.emit('nextVideo', {url},
+      this.socket.emit('addVideo', {url},
         res => {
           if (!res.message || res.message != 'ok') {
             reject(res.message ? res.message : 'ko');
@@ -54,8 +54,12 @@ export class WebsocketService {
     })
   }
 
-  subscribeToNewMessage(): Observable<{message: string, socketId: string}> {
-    return new Observable<{message: string, socketId: string}>(observable => {
+  doSendMessage(message) {
+    this.socket.emit('sendMessage', {message});
+  }
+
+  subscribeToNewMessage(): Observable<{message: string, senderId: string}> {
+    return new Observable<{message: string, senderId: string}>(observable => {
       this.socket.on('newMessage', data => {
         observable.next(data);
       })
