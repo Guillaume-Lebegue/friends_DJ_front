@@ -1,11 +1,15 @@
-<div class="border" *ngIf="video"
+<div class="border row" *ngIf="video"
     [ngClass]="{'bg-info': ongoing, 'bg-secondary': passed}">
-    <img [src]="video.thumbnails" alt="Video thumbnails">
-    <p>{{ video.title }}</p>
-    <p>{{ video.channel }}</p>
-    <p *ngIf="video.duration">
-        <small *ngIf="video.duration.hours">{{ video.duration.hours }}:</small>
-        <small *ngIf="video.duration.minutes">{{ video.duration.minutes }}:</small>
-        <small *ngIf="video.duration.seconds">{{ video.duration.seconds }}</small>
-    </p>
+    <div class="col-3">
+        <img [src]="video.thumbnails" alt="Video thumbnails">
+        <span class="bg-light" *ngIf="video.duration" style="position: relative; top: -20px;">
+            <small *ngIf="video.duration.hours">{{ video.duration.hours }}:</small>
+            <small *ngIf="video.duration.minutes">{{ video.duration.minutes }}:</small>
+            <small *ngIf="video.duration.seconds">{{ video.duration.seconds }}</small>
+        </span>
+    </div>
+    <div class="col">
+        <p>{{ video.title }}</p>
+        <p class="pb-0"><small>{{ video.channel }}</small></p>
+    </div>
 </div>

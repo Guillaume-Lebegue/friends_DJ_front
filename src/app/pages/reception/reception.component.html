@@ -1,19 +1,32 @@
-<div class="">
+<div class="d-flex align-items-center justify-content-center" style="height: 100vh;">
     <form [formGroup]="signForm">
-        <div class="col py-3 px-lg-5 border bg-light">
-            <label for="name">Pseudo*</label>
-            <input type="text" name="name" id="name"
-                placeholder="pseudo" formControlName="name">
-            <p *ngIf="missingName">* Obligatoire</p>
+        <div class="mb-5">
+            <label for="name">Pseudo</label>
+            <input type="text" name="name" id="name" class="form-control"
+                placeholder="pseudo" formControlName="name"
+                [ngClass]="{'is-invalid': missingName}">
         </div>
-        <div class="col py-3 px-lg-5 border bg-light">
-            <label for="playlistId">Playlist*</label>
-            <input type="text" name="playlistId" id="playlistId"
-                placeholder="Identifiant" formControlName="playlistId">
-            <p *ngIf="missingShortId">* Obligatoire</p>
-            <p *ngIf="notFound">Playlist introuvable</p>
+        <div class="mt-5 row">
+            <div class="col-4 mb-1 d-flex align-items-end">
+                <button class="btn btn-success" (click)="onCreate()">Creer une playlist</button>
+            </div>
+            <div class="col-1 d-flex justify-content-center align-items-end">
+                <div class="h1 m-0">/</div>
+            </div>
+            <div class="col">
+                <label class="mt-1" for="playlistId">Playlist</label>
+                <div class="row mb-1">
+                    <div class="col-6" style="padding-right: 0%;">
+                        <input type="text" name="playlistId" id="playlistId" class="form-control"
+                            placeholder="Identifiant" formControlName="playlistId"
+                            [ngClass]="{'is-invalid': missingShortId || notFound}">
+                        <p class="invalid-feedback" *ngIf="notFound">Identifiant introuvable</p>
+                    </div>
+                    <div class="col-6" style="padding-left: 0%;">
+                        <button class="btn btn-primary" (click)="onJoin()">Rejoindre</button>
+                    </div>
+                </div>
+            </div>
         </div>
-        <button class="btn btn-primary" (click)="onJoin()">Se connecter</button>
-        <button (click)="onCreate()">Creer salle</button>
     </form>
 </div>
