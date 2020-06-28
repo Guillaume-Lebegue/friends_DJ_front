@@ -41,6 +41,19 @@ export class WebsocketService {
     this.socket.emit('leavePlaylist');
   }
 
+  doSendVideo(url) {
+    return new Promise((resolve, reject) => {
+      this.socket.emit('nextVideo', {url},
+        res => {
+          if (!res.message || res.message != 'ok') {
+            reject(res.message ? res.message : 'ko');
+            return;
+          }
+          resolve();
+        });
+    })
+  }
+
   subscribeToNewMessage(): Observable<{message: string, socketId: string}> {
     return new Observable<{message: string, socketId: string}>(observable => {
       this.socket.on('newMessage', data => {
@@ -60,7 +73,7 @@ export class WebsocketService {
   subscribeToNewJoin(): Observable<{name: string, socketId: string}> {
     return new Observable<{name: string, socketId: string}>(observable => {
       this.socket.on('newJoin', data => {
-        observable.next(data.name);
+        observable.next(data);
       })
     })
   }
@@ -68,7 +81,7 @@ export class WebsocketService {
   subscribeToNewLeave(): Observable<{name: string, socketId: string}> {
     return new Observable<{name: string, socketId: string}>(observable => {
       this.socket.on('newLeave', data => {
-        observable.next(data.name);
+        observable.next(data);
       })
     })
   }

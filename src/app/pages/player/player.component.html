@@ -1,3 +1,7 @@
 <div class="">
     <button (click)="onDisconect()">Deconexion</button>
+    <input type="text" name="videoIntput" id="videoIntput" class="form-control" [(ngModel)]="videoInput">
+    <button (click)="onSendVideo()">Envoyer</button>
+    <p *ngIf="missingVideoInput">Faut renseigner</p>
+    <p *ngIf="videoNotFound">Video non trouvé</p>
 </div>

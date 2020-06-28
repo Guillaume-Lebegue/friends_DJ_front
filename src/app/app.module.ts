@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 import { WebsocketService } from './services/websoket/websocket.service';
 import { PlaylistService } from './services/rest/playlist.service';
 import { HttpClientModule } from '@angular/common/http';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { ReceptionComponent } from './pages/reception/reception.component';
 import { PlayerComponent } from './pages/player/player.component';
 
@@ -20,7 +20,8 @@ import { PlayerComponent } from './pages/player/player.component';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FormsModule
   ],
   providers: [
     WebsocketService,

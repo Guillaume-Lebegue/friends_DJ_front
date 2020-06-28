@@ -12,6 +12,10 @@ import { Video } from 'src/app/models/video.model';
 })
 export class PlayerComponent implements OnInit, OnDestroy {
 
+  videoInput: String = '';
+  missingVideoInput: Boolean = false;
+  videoNotFound: Boolean = false;
+
   currentName: String;
   currentPlaylist: Playlist;
 
@@ -52,6 +56,27 @@ export class PlayerComponent implements OnInit, OnDestroy {
     this.playlistService.currentPlaylist.next(null);
     this.playlistService.currentName.next(null);
     this.websocketService.doLeaveTeam();
+  }
+
+  async onSendVideo() {
+    this.missingVideoInput = false;
+    this.videoNotFound = false;
+
+    if (this.videoInput.length <= 0) {
+      this.missingVideoInput = true;
+      return;
+    }
+
+    try {
+      await this.websocketService.doSendVideo(this.videoInput);
+    } catch (err) {
+      if (err == 'not found')
+        this.videoNotFound = true;
+      else {
+        console.log(err);
+        alert('Server error. Please, try again later!');
+      }
+    }
   }
 
   setupObservable() {
