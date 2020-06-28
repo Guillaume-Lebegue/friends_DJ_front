@@ -1,4 +1,9 @@
 <div class="">
+    <youtube-player class="sr-only" *ngIf="currentPlaylist.actualVideo < currentPlaylist.videos.length"
+        [videoId]="currentPlaylist.videos[currentPlaylist.actualVideo].id" suggestedQuality="small"
+        (error)="onytPlayerError($event)" (ready)="onytPlayerReady($event)"
+        (stateChange)="onytPlayerStateChange($event)" #ytPlayer>
+    </youtube-player>
     <div class="row">
         <div class="col py-3 px-lg-5 border bg-light">
             <input type="text" name="videoIntput" id="videoIntput" class="form-control" [(ngModel)]="videoInput">
@@ -27,4 +32,5 @@
     </div>
     <p>Identifiant playlist: {{ this.currentPlaylist.shortId }}</p>
     <button (click)="onDisconect()">Deconexion</button>
+    <mv-slider [(value)]="volume" [min]="1" [max]="100" (change)="onVolumeChange()"></mv-slider>
 </div>

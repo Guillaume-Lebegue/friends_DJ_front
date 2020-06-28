@@ -11,7 +11,7 @@ import { environment } from 'src/environments/environment';
 })
 export class PlaylistService {
 
-  public currentName: BehaviorSubject<String> = new BehaviorSubject<String>(null);
+  public currentName: BehaviorSubject<string> = new BehaviorSubject<string>(null);
   public currentPlaylist: BehaviorSubject<Playlist> = new BehaviorSubject<Playlist>(null);
 
   public api = `${environment.apiHostName}/api/playlist/`;

@@ -1,9 +1,10 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { PlaylistService } from 'src/app/services/rest/playlist.service';
 import { WebsocketService } from 'src/app/services/websoket/websocket.service';
 import { Playlist } from 'src/app/models/playlist.model';
 import { Observable, Subscription } from 'rxjs';
 import { Video } from 'src/app/models/video.model';
+import { global } from '@angular/compiler/src/util';
 
 @Component({
   selector: 'app-player',
@@ -12,13 +13,17 @@ import { Video } from 'src/app/models/video.model';
 })
 export class PlayerComponent implements OnInit, OnDestroy {
 
-  videoInput: String = '';
-  missingVideoInput: Boolean = false;
-  videoNotFound: Boolean = false;
+  @ViewChild('ytPlayer') ytPlayerRef;
+  ytPlayer = null;
+  volume = 1;
 
-  chatroomInput: String = '';
+  videoInput: string = '';
+  missingVideoInput: boolean = false;
+  videoNotFound: boolean = false;
 
-  currentName: String;
+  chatroomInput: string = '';
+
+  currentName: string;
   currentPlaylist: Playlist;
 
   newMessageSubscription: Subscription = null;
@@ -29,7 +34,7 @@ export class PlayerComponent implements OnInit, OnDestroy {
   messages: Array<{
     message: string,
     name: string,
-    own: Boolean,
+    own: boolean,
     info: boolean
   }>;
 
@@ -53,12 +58,37 @@ export class PlayerComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    if (global['youtubeInit'] == undefined || global['youtubeInit'] != true) {
+      const tag = document.createElement('script');
+      tag.src = "https://www.youtube.com/iframe_api";
+      document.body.appendChild(tag);
+      global['youtubeInit'] = true;
+    }
   }
 
   onDisconect() {
     this.playlistService.currentPlaylist.next(null);
     this.playlistService.currentName.next(null);
     this.websocketService.doLeaveTeam();
+  }
+
+  onytPlayerReady(event) {
+    this.ytPlayer = event.target;
+    this.ytPlayer.setPlaybackQuality('small');
+    this.volume = this.ytPlayer.getVolume();
+    this.ytPlayer.playVideo();
+    this.ytPlayer.unMute();
+  }
+
+  onytPlayerStateChange(event) {
+    if (event.data == 0) {
+      this.websocketService.doNextVideo(this.currentPlaylist.actualVideo);
+      this.currentPlaylist.actualVideo++;
+      this.playlistService.currentPlaylist.next(this.currentPlaylist);
+    } else if (event.data == 5) {
+      this.ytPlayer.playVideo();
+      this.ytPlayer.unMute();
+    }
   }
 
   async onSendVideo() {
@@ -76,7 +106,7 @@ export class PlayerComponent implements OnInit, OnDestroy {
       if (err == 'not found')
         this.videoNotFound = true;
       else {
-        console.log(err);
+        console.error(err);
         alert('Server error. Please, try again later!');
       }
     }
@@ -85,8 +115,11 @@ export class PlayerComponent implements OnInit, OnDestroy {
   async onSendMessage() {
     if (this.chatroomInput.length <= 0)
       return;
-    
     this.websocketService.doSendMessage(this.chatroomInput);
+  }
+
+  onVolumeChange() {
+    this.ytPlayer.setVolume(this.volume);
   }
 
   setupObservable() {
@@ -94,10 +127,8 @@ export class PlayerComponent implements OnInit, OnDestroy {
       this.newMessageSubscription = this.websocketService.subscribeToNewMessage().subscribe(data => {
         if (!this.currentPlaylist)
           return;
-        console.log('playlist: ', this.currentPlaylist, ' senderId: ', data.senderId);
         const senderName = this.playlistService.getNameFromSocket(this.currentPlaylist, data.senderId);
         const own = data.senderId == this.websocketService.socket.id;
-        console.log('message: ', data.message, 'sender: ', senderName, ' own: ', own);
         this.messages.push({message: data.message, name: senderName, own, info: false});
       });
     if (!this.newVideoSubscription)
