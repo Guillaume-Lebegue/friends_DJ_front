@@ -1,11 +1,11 @@
 <div class="border row" *ngIf="video"
     [ngClass]="{'bg-info': ongoing, 'bg-secondary': passed}">
-    <div class="col-3">
+    <div class="col-3 d-flex flex-column">
         <img [src]="video.thumbnails" alt="Video thumbnails">
-        <span class="bg-light" *ngIf="video.duration" style="position: relative; top: -20px;">
-            <small *ngIf="video.duration.hours">{{ video.duration.hours }}:</small>
-            <small *ngIf="video.duration.minutes">{{ video.duration.minutes }}:</small>
-            <small *ngIf="video.duration.seconds">{{ video.duration.seconds }}</small>
+        <span class="" *ngIf="video.duration" style="position: relative; top: -20px;">
+            <small class="bg-light" *ngIf="video.duration.hours">{{ video.duration.hours }}:</small>
+            <small class="bg-light" *ngIf="video.duration.minutes">{{ video.duration.minutes }}:</small>
+            <small class="bg-light" *ngIf="video.duration.seconds">{{ video.duration.seconds }}</small>
         </span>
     </div>
     <div class="col">

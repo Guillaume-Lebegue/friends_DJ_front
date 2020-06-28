@@ -24,19 +24,19 @@
             <div class="border mt-5 d-flex flex-column justify-content-between" style="height: 80%;">
                 <div class="border h-100" style="overflow-y: scroll; overflow-x: hidden;">
                     <div *ngFor="let message of messages">
-                        <div class="row"
+                        <div class="d-flex"
                             [ngClass]="{'justify-content-start': !message.own && !message.info,
                                         'justify-content-center': message.info,
-                                        'row justify-content-end': message.own}">
+                                        'justify-content-end': message.own}">
                             <ng-container *ngIf="!message.own && !message.info">
-                                <p class="border rounded-pill bg-warning ml-3 mt-2 px-2 col">{{ message.message }}</p>
-                                <p class="col" *ngIf="message.name"><small>{{ message.name }}</small></p>
+                                <p class="border rounded-pill bg-warning ml-2 mt-2 px-2">{{ message.message }}</p>
+                                <p class="" *ngIf="message.name"><small>{{ message.name }}</small></p>
                             </ng-container>
                             <ng-container *ngIf="message.own">
-                                <p class="border rounded-pill bg-success mr-3 mt-2 px-2">{{ message.message }}</p>
+                                <p class="border rounded-pill bg-success mr-2 mt-2 px-2">{{ message.message }}</p>
                             </ng-container>
                             <ng-container *ngIf="message.info">
-                                <p class="ml-3 mt-2">{{ message.message }}</p>
+                                <p class="mt-2">{{ message.message }}</p>
                             </ng-container>
                         </div>
                     </div>
