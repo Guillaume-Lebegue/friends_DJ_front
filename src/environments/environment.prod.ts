@@ -1,4 +1,5 @@
 export const environment = {
   production: true,
-  apiHostName: 'http://localhost:3334'
+  apiHostName: 'http://37.44.237.20:3333',
+  whiteListedDomain: '37.44.237.20:3333'
 };

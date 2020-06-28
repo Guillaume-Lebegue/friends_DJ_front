@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  apiHostName: 'http://localhost:3000'
+  apiHostName: 'http://localhost:3000',
+  whiteListedDomain: 'localhost:3000'
 };
 
 /*
