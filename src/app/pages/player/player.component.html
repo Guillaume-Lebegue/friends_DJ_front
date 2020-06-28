@@ -4,4 +4,7 @@
     <button (click)="onSendVideo()">Envoyer</button>
     <p *ngIf="missingVideoInput">Faut renseigner</p>
     <p *ngIf="videoNotFound">Video non trouvé</p>
+    <div class="border" *ngFor="let video of currentPlaylist.videos">
+        <app-video [video]="video"></app-video>
+    </div>
 </div>

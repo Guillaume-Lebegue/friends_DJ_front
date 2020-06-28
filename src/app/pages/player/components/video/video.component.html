@@ -1,0 +1,10 @@
+<div class="border" *ngIf="video">
+    <img [src]="video.thumbnails" alt="Video thumbnails">
+    <p>{{ video.title }}</p>
+    <p>{{ video.channel }}</p>
+    <p *ngIf="video.duration">
+        <small *ngIf="video.duration.hours">{{ video.duration.hours }}:</small>
+        <small *ngIf="video.duration.minutes">{{ video.duration.minutes }}:</small>
+        <small *ngIf="video.duration.seconds">{{ video.duration.seconds }}</small>
+    </p>
+</div>

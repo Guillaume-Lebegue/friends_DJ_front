@@ -9,12 +9,14 @@ import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { ReceptionComponent } from './pages/reception/reception.component';
 import { PlayerComponent } from './pages/player/player.component';
+import { VideoComponent } from './pages/player/components/video/video.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ReceptionComponent,
-    PlayerComponent
+    PlayerComponent,
+    VideoComponent
   ],
   imports: [
     BrowserModule,
