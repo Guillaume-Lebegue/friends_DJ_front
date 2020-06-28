@@ -91,8 +91,11 @@ export class PlayerComponent implements OnInit, OnDestroy {
       this.newVideoSubscription = this.websocketService.subscribeToNewVideo().subscribe(data => {
         if (!this.currentPlaylist)
           return;
-        this.currentPlaylist.videos.push(data);
+        this.currentPlaylist.videos.push(data.video);
         this.playlistService.currentPlaylist.next(this.currentPlaylist);
+
+        const senderName = this.playlistService.getNameFromSocket(this.currentPlaylist, data.senderId);
+        this.messages.push({message:`${senderName} Vient d'ajouter ${data.video.title}`, name: null, own: null, info: true});
       });
     if (!this.newJoinSubscription)
       this.newJoinSubscription = this.websocketService.subscribeToNewJoin().subscribe(data => {

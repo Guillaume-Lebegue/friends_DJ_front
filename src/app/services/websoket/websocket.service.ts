@@ -62,8 +62,8 @@ export class WebsocketService {
     })
   }
 
-  subscribeToNewVideo(): Observable<Video> {
-    return new Observable<Video>(observable => {
+  subscribeToNewVideo(): Observable<{video: Video, senderId: string}> {
+    return new Observable<{video: Video, senderId: string}>(observable => {
       this.socket.on('newVideo', data => {
         observable.next(data);
       })
