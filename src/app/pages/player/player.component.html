@@ -1,4 +1,9 @@
 <div class="">
+    <youtube-player class="sr-only" *ngIf="currentPlaylist.actualVideo < currentPlaylist.videos.length"
+        [videoId]="currentPlaylist.videos[currentPlaylist.actualVideo].id" suggestedQuality="small"
+        (error)="onytPlayerError($event)" (ready)="onytPlayerReady($event)"
+        (stateChange)="onytPlayerStateChange($event)" #ytPlayer>
+    </youtube-player>
     <button (click)="onDisconect()">Deconexion</button>
     <input type="text" name="videoIntput" id="videoIntput" class="form-control" [(ngModel)]="videoInput">
     <button (click)="onSendVideo()">Envoyer</button>
@@ -21,4 +26,5 @@
         <button (click)="onSendMessage()">Send</button>
     </div>
     <p>Code: {{ this.currentPlaylist.shortId }}</p>
+    <mv-slider [(value)]="volume" [min]="1" [max]="100" (change)="onVolumeChange()"></mv-slider>
 </div>

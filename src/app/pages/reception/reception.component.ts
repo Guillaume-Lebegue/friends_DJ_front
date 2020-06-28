@@ -45,7 +45,7 @@ export class ReceptionComponent implements OnInit {
     this.playlistService.createPlaylist().subscribe(playlist => {
       this.doJoin(playlist);
     }, error => {
-      console.log(error);
+      console.error(error);
       alert('Server error. Please, try again later!');
     })
   }
@@ -66,7 +66,7 @@ export class ReceptionComponent implements OnInit {
       if (error.status == 404)
         this.notFound = true;
       else {
-        console.log(error);
+        console.error(error);
         alert('Server error. Please, try again later!');
       }
     })
@@ -78,7 +78,7 @@ export class ReceptionComponent implements OnInit {
       this.playlistService.currentPlaylist.next(playlist);
       this.playlistService.currentName.next(this.name.value);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       alert('Server error. Please, try again later!');
     }
   }

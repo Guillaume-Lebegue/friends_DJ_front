@@ -10,6 +10,8 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { ReceptionComponent } from './pages/reception/reception.component';
 import { PlayerComponent } from './pages/player/player.component';
 import { VideoComponent } from './pages/player/components/video/video.component';
+import { YouTubePlayerModule } from '@angular/youtube-player';
+import { NgxBootstrapSliderModule } from 'ngx-bootstrap-slider';
 
 @NgModule({
   declarations: [
@@ -23,7 +25,9 @@ import { VideoComponent } from './pages/player/components/video/video.component'
     AppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    YouTubePlayerModule,
+    NgxBootstrapSliderModule
   ],
   providers: [
     WebsocketService,

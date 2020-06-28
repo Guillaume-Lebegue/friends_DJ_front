@@ -24,7 +24,7 @@ export class WebsocketService {
     this.socket.emit('disconnect');
   }
 
-  doJoinTeam(playlistId, name) {
+  doJoinTeam(playlistId: string, name: string) {
     return new Promise((resolve, reject) => {
       this.socket.emit('joinPlaylist', {playlistId, name},
         res => {
@@ -41,7 +41,7 @@ export class WebsocketService {
     this.socket.emit('leavePlaylist');
   }
 
-  doSendVideo(url) {
+  doSendVideo(url: string) {
     return new Promise((resolve, reject) => {
       this.socket.emit('addVideo', {url},
         res => {
@@ -54,8 +54,12 @@ export class WebsocketService {
     })
   }
 
-  doSendMessage(message) {
+  doSendMessage(message: string) {
     this.socket.emit('sendMessage', {message});
+  }
+
+  doNextVideo(passedPos: number) {
+    this.socket.emit('nextVideo', {passed: passedPos});
   }
 
   subscribeToNewMessage(): Observable<{message: string, senderId: string}> {
