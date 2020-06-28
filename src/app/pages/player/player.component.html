@@ -4,33 +4,53 @@
         (error)="onytPlayerError($event)" (ready)="onytPlayerReady($event)"
         (stateChange)="onytPlayerStateChange($event)" #ytPlayer>
     </youtube-player>
-    <div class="row">
-        <div class="col py-3 px-lg-5 border bg-light">
-            <input type="text" name="videoIntput" id="videoIntput" class="form-control" [(ngModel)]="videoInput">
-            <button (click)="onSendVideo()">Envoyer</button>
-            <p *ngIf="missingVideoInput">Faut renseigner</p>
-            <p *ngIf="videoNotFound">Video non trouvé</p>
-        </div>
-        <div class="border" *ngFor="let video of currentPlaylist.videos; let index = index">
-            <app-video [video]="video"
+    <div class="row w-100">
+        <div class="col-5 border d-flex flex-column" style="height: 95vh;">
+            <div class="py-3 px-5 border bg-light form-group row">
+                <input type="text" name="videoIntput" id="videoIntput" class="form-control col-10"
+                    [ngClass]="{'is-invalid': missingVideoInput || videoNotFound}" [(ngModel)]="videoInput">
+                <button class="col-2 btn btn-success" (click)="onSendVideo()">Ajouter</button>
+                <div class="invalid-feedback" *ngIf="videoNotFound">Video non trouvé</div>
+            </div>
+            <div style="overflow-y: scroll;">
+                <app-video *ngFor="let video of currentPlaylist.videos; let index = index"
+                [video]="video"
                 [passed]="currentPlaylist.actualVideo > index"
                 [ongoing]="currentPlaylist.actualVideo == index">
-            </app-video>
+                </app-video>
+            </div>
         </div>
-        <div class="col -sm py-3 px-lg-5 border bg-light">
-            <div class="borser">
-                <div class="border" *ngFor="let message of messages">
-                    <div class="border">
-                        <p>{{ message.message }}</p>
-                        <p *ngIf="message.name">{{ message.name }}</p>
+        <div class="col-7 border bg-light" style="height: 95vh;">
+            <div class="border mt-5 d-flex flex-column justify-content-between" style="height: 80%;">
+                <div class="border h-100" style="overflow-y: scroll;">
+                    <div *ngFor="let message of messages">
+                        <div class="row"
+                            [ngClass]="{'justify-content-start': !message.own && !message.info,
+                                        'justify-content-center': message.info,
+                                        'row justify-content-end': message.own}">
+                            <ng-container *ngIf="!message.own && !message.info">
+                                <p class="border rounded-pill bg-warning ml-3 mt-2 px-2 col">{{ message.message }}</p>
+                                <p class="col" *ngIf="message.name"><small>{{ message.name }}</small></p>
+                            </ng-container>
+                            <ng-container *ngIf="message.own">
+                                <p class="border rounded-pill bg-success mr-3 mt-2 px-2">{{ message.message }}</p>
+                            </ng-container>
+                            <ng-container *ngIf="message.info">
+                                <p class="ml-3 mt-2">{{ message.message }}</p>
+                            </ng-container>
+                        </div>
                     </div>
                 </div>
-                <input type="text" name="chatroom" id="chatroom" class="form-control" [(ngModel)]="chatroomInput">
-                <button (click)="onSendMessage()">Send</button>
+                <div class="form-group px-4 pt-2 row">
+                    <input type="text" name="chatroom" id="chatroom" class="form-control col-10" [(ngModel)]="chatroomInput">
+                    <button class="col-2 btn btn-success" (click)="onSendMessage()">Envoyer</button>
+                </div>
+            </div>
+            <div class="my-4 d-flex justify-content-between">
+                <p><strong>Identifiant: {{ this.currentPlaylist.shortId }}</strong></p>
+                <mv-slider [(value)]="volume" [min]="1" [max]="100" (change)="onVolumeChange()"></mv-slider>
+                <button class="btn btn-danger" (click)="onDisconect()">Deconexion</button>
             </div>
         </div>
     </div>
-    <p>Identifiant playlist: {{ this.currentPlaylist.shortId }}</p>
-    <button (click)="onDisconect()">Deconexion</button>
-    <mv-slider [(value)]="volume" [min]="1" [max]="100" (change)="onVolumeChange()"></mv-slider>
 </div>

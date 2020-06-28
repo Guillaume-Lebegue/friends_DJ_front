@@ -102,6 +102,7 @@ export class PlayerComponent implements OnInit, OnDestroy {
 
     try {
       await this.websocketService.doSendVideo(this.videoInput);
+      this.videoInput = "";
     } catch (err) {
       if (err == 'not found')
         this.videoNotFound = true;
@@ -116,6 +117,7 @@ export class PlayerComponent implements OnInit, OnDestroy {
     if (this.chatroomInput.length <= 0)
       return;
     this.websocketService.doSendMessage(this.chatroomInput);
+    this.chatroomInput = "";
   }
 
   onVolumeChange() {

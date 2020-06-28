@@ -10,7 +10,7 @@ import { Playlist } from './models/playlist.model';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  title = 'friendsDJFront';
+  title = 'Friend\'s DJ';
   socketId = null;
 
   currentName: String = null;
